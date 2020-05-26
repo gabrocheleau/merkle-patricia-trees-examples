@@ -6,7 +6,7 @@ Patricia Merkle Trees are the fundamental data structure on which Ethereum is bu
 
 ## Preliminary information
 
-If you're not familiar with Basic Merkle Trees, I recommend you begin by reading [Vitalik's "Merkling in Ethereum"](https://blog.ethereum.org/2015/11/15/merkling-in-ethereum/). This will give you a basic idea of what Merkle Trees are, why they're useful, and the significant advantages of using Merkle Patricia Trees over standard Merkle Trees.
+If you're not familiar with Basic Merkle Trees, I recommend you begin by reading [Vitalik's "Merkling in Ethereum"](https://blog.ethereum.org/2015/11/15/merkling-in-ethereum/). This will give you a basic idea of what Merkle Trees are, why they're useful, and of the significant advantages of using Merkle Patricia Trees over standard Merkle Trees.
 
 A Patricia Merkle Tree is the combination of a:
 
