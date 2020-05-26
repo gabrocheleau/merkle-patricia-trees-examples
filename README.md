@@ -1,6 +1,8 @@
-# Merkle Patricia Trees in Ethereum - An Interactive Tutorial using JavaScript
+# Ethereum's Merkle Patricia Trees
 
-Patricia Merkle Trees are the fundamental data structure on which Ethereum is built. In this tutorial, we will explore the inner workings of Ethereum's Patricia Merkle Trees, using follow-along examples written in JavaScript.
+## An Interactive Tutorial using JavaScript
+
+Patricia Merkle Trees are the fundamental data structure on which Ethereum is built. In this tutorial, we will explore the inner workings of Ethereum's Patricia Merkle Trees, using follow-along examples written in JavaScript. This tutorial uses the excellent ["merkle-patricia-tree"](https://github.com/ethereumjs/merkle-patricia-tree) library built by the ethereumjs team.
 
 ## Preliminary information
 
@@ -30,12 +32,12 @@ Follow along with the numbered examples are in the /examples folder.
 
 ### Example 1a - Creating and Updating a Base Trie
 
-Let's begin right away with a simple example. In this example, we create an empty trie, and store a single key-value pair within it.
+Let's begin right away with a simple example. Don't worry if things aren't too clear for now. In this example, we'll create an empty trie, and store a single key-value pair within it.
 
 ```jsx
 /* Example 1a - Creating and Updating a Base Trie*/
 
-const Trie = require('../dist/index.js').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
+const Trie = require('merkle-patricia-tree').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
 
 var trie = new Trie() // We create an empty Merkle Patricia Tree
 console.log('Empty trie root (Bytes): ', trie.root) // The trie root (32 bytes)
@@ -63,7 +65,7 @@ Quite simple. As expected, we can retrieve our value using the key, and the root
 - Values undergo an additional transformation before they are stored. They are encoded using the [Recursive Length Prefix encoding function](https://github.com/ethereum/wiki/wiki/RLP). This allows the serialization of strings and arrays. The "BaseTrie" library also does that automatically.
 - Last but not least: in Ethereum, the keys also undergo a transformation. Instead of using the keys (or their raw bytes) directly, they are first converted using a hash function (keccak256). This ensures that the length of the keys stays the same (32-bytes). The BaseTrie library **does not** do this.
 
-## Example 1b - Manually Creating and Updating a Secure Trie
+### Example 1b - Manually Creating and Updating a Secure Trie
 
 Let's retry the example above while respecting Ethereum's specification. We will therefore:
 
@@ -75,7 +77,7 @@ Here's what this looks like:
 ```jsx
 /* Example 1b - Manually Creating and Updating a Secure Trie*/
 
-const Trie = require('../dist/index.js').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
+const Trie = require('merkle-patricia-tree').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
 const ethereumjs_util_1 = require('ethereumjs-util')
 const keccak256 = ethereumjs_util_1.keccak256
 
@@ -101,14 +103,14 @@ Updated trie root: <Buffer be ad e9 13 ab 37 dc a0 dc a2 e4 29 24 b9 18 c2 a1 ca
 
 This does not change much from our point of view, except that the root hash of the trie has changed (as the key has changed from "testKey" to keccak256("testKey")).
 
-## Example 1c - Automatically Creating and Updating a Secure Trie
+### Example 1c - Automatically Creating and Updating a Secure Trie
 
 Fortunately, there is a library called "SecureTrie" that automatically takes care of the keccak256 hashing for us. We can see that it outputs the same results as example1b.js
 
 ```jsx
 /* Example 1c - Creating an empty Merkle Patricia Tree and updating it with a single key-value pair */
 
-const Trie = require('../dist/index.js').SecureTrie // We import the library required to create a basic Merkle Patricia Tree
+const Trie = require('merkle-patricia-tree').SecureTrie // We import the library required to create a basic Merkle Patricia Tree
 
 var trie = new Trie() // We create an empty Patricia Merkle Tree
 console.log('Empty trie root (Bytes): ', trie.root) // The trie root (32 bytes)
@@ -132,14 +134,14 @@ Updated trie root: <Buffer be ad e9 13 ab 37 dc a0 dc a2 e4 29 24 b9 18 c2 a1 ca
 
 We won't be using the keccak256 of the keys (or the SecureTrie library) in this tutorial, as that would make certain types of noded (like extensions) harder to create and notice. However, keep in
 
-## Example 1d - Deleting a Key-Value Pair from a Trie
+### Example 1d - Deleting a Key-Value Pair from a Trie
 
 In additional to retrieving (using "get") and adding (using "put") key-value pairs to our tree, we can also delete certain key-value pairs (using "del").
 
 ```jsx
 /* Example 1d - Deleting a Key-Value Pair from a Trie*/
 
-const Trie = require('../dist/index.js').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
+const Trie = require('merkle-patricia-tree').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
 
 var trie = new Trie() // We create an empty Patricia Merkle Tree
 console.log('Empty trie root: ', trie.root) // The trie root
@@ -169,7 +171,7 @@ Trie root after deletion: <Buffer 56 e8 1f 17 1b cc 55 a6 ff 83 45 e6 92 c0 f8 6
 
 Quite simple, isn't it? Notice that our trie root \*\*\*\*after deletion is the same as our initial trie root. This is exactly what we should expect, as we have deleted the only value-key pair from the tree!
 
-# 2. A Deeper Look at Individual Nodes
+## 2. A Deeper Look at Individual Nodes
 
 This is all great, but we haven't yet really dived into the inner workings of Merkle Patricia Trees. So far, we've only retrieved values associated with certain keys. However, we could also take a look at the individual nodes themselves (and not only the values they contain).
 
@@ -182,14 +184,14 @@ This is all great, but we haven't yet really dived into the inner workings of Me
 
 Basically, to improve efficiency, Merkle Patricia Trees provide a new type of node called `extension`. An `extension` replaces "useless" sequences of branches that contain only one valid index. This greatly improves efficiency. Don't worry if you don't get it yet, we'll go through examples.
 
-## Example 2a - Creating and looking up a null node
+### Example 2a - Creating and looking up a null node
 
 This is quite straightforward. We'll simply look up a node (using "findPath") with a non-existent key.
 
 ```jsx
 // Example 2a - Creating and looking up a NULL node
 
-const Trie = require('../dist/index.js').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
+const Trie = require('merkle-patricia-tree').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
 
 var trie = new Trie() // We create an empty Patricia Merkle Tree
 
@@ -206,7 +208,7 @@ Node 1:  null
 
 Nothing surprising here, the node is null.
 
-## Example 2b - Creating and looking up a branch node
+### Example 2b - Creating and looking up a branch node
 
 Creating a branch is a bit more complicated. For a branch to exist, we need to create a common path that eventually diverges.
 
@@ -375,7 +377,7 @@ A null node! Did you expect a branch node?
 
 This reveals a **key difference between standard ("Radix") tries and Patricia tries**. In standards tries, each step of the "path" would be a branch itself (i.e. branch node at <7>, <74>, <74 6>, <74 65>, and so on). However, creating a branch node for every step of the "path" is inefficient when there is only one valid "branch" for many of those steps. This is because we're repeatedly storing 17-item arrays that only contain only one non-null value. Patricia Tries avoids these unnecessary `branch` nodes by creating `extension` nodes at the beginning of the common path to act as "shortcuts". This explains why there is no branch node at key "testKe".
 
-## The Encoded Path in Leaf and Extension Nodes
+### The Encoded Path in Leaf and Extension Nodes
 
 We saw in one of our previous examples that the branches contained two buffers:
 
@@ -410,7 +412,7 @@ In our example above, the first hexadecimal characters for the encodedPath of bo
 
 With this in mind, let's look at leaf and extension nodes.
 
-## Example 2c - Looking up a Leaf Node
+### Example 2c - Looking up a Leaf Node
 
 In the last example, we inferred that the two branches of our branch node (at key/path "testKey") pointed to leaf nodes. We can confirm this by looking up one of them directly
 
@@ -429,7 +431,7 @@ Node 1 value:  testValue0
 
 Indeed! A leaf node with value "testValue0". The "nibble" indicates the last hex character(s) that differentiate this leaf from the parent branch. Since our branch node was "testKey" (hex value = <74 65 73 74 56 61 6c 75 65>) , and since we took the branch corresponding to hex value 3, there is only the 0 left to complete our full key/path of "testKey0" (hex value = <74 65 73 74 56 61 6c 75 65 30>).
 
-## Example 2d - Creating and Looking Up an Extension Node
+### Example 2d - Creating and Looking Up an Extension Node
 
 To create an extension node, we need to slightly change our keys. We'll keep our branch node at path "testKey", but we'll change the two other keys so that they lead down a common path.
 
@@ -543,7 +545,7 @@ Another branch node, itself containing two leaf nodes at index 3 and 4, just lik
 
 That's all! We've covered all four types of nodes. I encourage you to play with the examples and build your own nodes! If you'd like, you can also go through [this other example](https://github.com/ethereum/wiki/wiki/Patricia-Tree#example-trie).
 
-# 3. Generating and Verifying Hashes
+## 3. Generating and Verifying Hashes
 
 We're almost there! The only thing we haven't covered is the "Merkle" part of the Merkle Patricia Trees. As you may know, Merkle trees are hash trees that allow us to efficiently verify information (such as "Has this transaction been confirmed?" in the context of blockchains).
 
@@ -553,7 +555,7 @@ You can think of paths as a sequence of instructions for a given input, somethin
 
 So, how is the hash calculated? First, all values from the node are serialized using the [Recursive Length Prefix encoding function](https://github.com/ethereum/wiki/wiki/RLP). Then, a hash function (keccak256) is applied to the serialized data, outputting a 32-bytes hash.
 
-## 3a. Generating a hash
+### 3a. Generating a hash
 
 We saw in our example above that our extension node was referenced to by its hash. In this example, we'll try to manually compute its hash with its value. First, we look at the hash and the value.
 
@@ -596,7 +598,7 @@ The extension node hash:  <Buffer 39 1d 48 30 de 00 87 57 46 98 4c 4f d3 ef 5a 0
 
 Easy, wasn't it?
 
-## 3b. Verification using a hash
+### 3b. Verification using a hash
 
 Merkle trees are useful because they allow us to verify if certain hashes are contained in the tree without requiring the whole set of hashes from the tree. To demonstrate this we will re-use the example above. As we saw, we had a branch node whose branch pointed to an extension node:
 
@@ -688,7 +690,7 @@ console.log(root2)
 
 Ethereum takes advantage of the uniqueness of each hash to secure the network. You can always verify that a certain set of transactions are valid by computing their hash tree and comparing the relevant hash to the corresponding trusted hash.
 
-# 4. Merkle Patricia Trees in Ethereum
+## 4. Merkle Patricia Trees in Ethereum
 
 So, how does that tie in with Ethereum? There are four distinct Merkle Patricia Trees in Ethereum:
 
@@ -699,13 +701,13 @@ So, how does that tie in with Ethereum? There are four distinct Merkle Patricia 
 
 In this tutorial, we'll look at the transactions trie. We'll even be interacting with the actual Ethereum blockchain.
 
-## Configuring additional tools
+### Configuring additional tools
 
 To interact with the Ethereum blockchain, we will need to use a JavaScript library called "web3.js". We will also need to setup an API access to the Ethereum blockchain using a free tool called [Infura](https://infura.io/).
 
 If you want to follow along these examples, you will need to create a free Infura account using this link: [https://infura.io/register](https://infura.io/register). Once you have created your account, create a new project, and copy the first URL under "Endpoints / Mainnet" (something like https://mainnet.infura.io/v3/YOUR_KEY). Then, replace the string "YOUR_INFURA_MAINNET_ENDPOINT" in ./infura-endpoint.js with your copied Infura URL. You should be good to go! If not, refer to [this tutorial](https://coderrocketfuel.com/article/configure-infura-with-web3-js-and-node-js).
 
-## The Transactions Trie
+### The Transactions Trie
 
 The purpose of the transactions trie is to record transaction requests. It can answer questions like: "What is the value of this transaction?" or "Has this transaction been included in a particular block?". In the Ethereum blockchain, each block has its own transactions trie. Just like in our previous examples, we need a path to "navigate" the tree and access a particular transaction. In the transactions trie, this path is given by the Recursive Layer Protocol encoding of the transaction's index in the block. So, for example, if a transaction's index is 127, our path will be:
 
@@ -726,7 +728,7 @@ So, what does our destination look like? It's a **key-value pair**, where:
 
 A lot of confusion can arise from the fact that multiple distinct things are called "keys" and "values". The examples should clear some of this confusion up.
 
-## 4a. Retrieving a Transaction from the Ethereum Blockchain
+### 4a. Retrieving a Transaction from the Ethereum Blockchain
 
 Let's look at an individual from the blockchain. I've chosen a recent transaction from Vitalik that you can look up here: [https://etherscan.io/tx/0x2f81c59fb4f0c3146483e72c1315833af79b6ea9323b647101645dc7ebe04074](https://etherscan.io/tx/0x2f81c59fb4f0c3146483e72c1315833af79b6ea9323b647101645dc7ebe04074). We can retrieve the transaction information with a script:
 
@@ -761,7 +763,7 @@ Transaction:  {
 }
 ```
 
-## 4b. Generating a Transaction Hash from Transaction Data
+### 4b. Generating a Transaction Hash from Transaction Data
 
 The previous transaction output contains all the information from the transaction node (plus additional information automatically provided by web3, like the blockHash and the blockNumber). As per [Ethereum's yellow paper](https://ethereum.github.io/yellowpaper/paper.pdf), we know that a transaction contains the following hex values: [nonce, gasPrice, gasLimit, to, value, input, v, r, s]. We therefore extract this data from our previous transaction output to create an Ethereum transaction:
 
@@ -810,6 +812,6 @@ Transaction hash:  <Buffer 2f 81 c5 9f b4 f0 c3 14 64 83 e7 2c 13 15 83 3a f7 9b
 
 Awesome! This is the hash we started with!
 
-# Conclusion
+## Conclusion
 
-This ends our exploration of Merkle Patricia Trees in Ethereum.
+This ends our exploration of Merkle Patricia Trees in Ethereum. Thank you.
