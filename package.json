@@ -1,0 +1,26 @@
+{
+  "name": "merkle-patricia-trees-examples",
+  "version": "1.0.0",
+  "description": "A collection of JavaScript examples to explore Merkle Patricia Trees as used in Ethereum",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrocheleau/merkle-patricia-trees-examples.git"
+  },
+  "keywords": [
+    "merkle-patricia-trees",
+    "ethereum"
+  ],
+  "author": "Gabriel Rocheleau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrocheleau/merkle-patricia-trees-examples/issues"
+  },
+  "homepage": "https://github.com/gabrocheleau/merkle-patricia-trees-examples#readme",
+  "dependencies": {
+    "web3": "^1.2.8"
+  }
+}
