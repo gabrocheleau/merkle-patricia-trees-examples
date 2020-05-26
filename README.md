@@ -10,7 +10,7 @@ If you're not familiar with Basic Merkle Trees, I recommend you begin by reading
 
 A Patricia Merkle Tree is the combination of a:
 
-- **Patricia Trie**: an efficient Radix Trie (a data structure in which "keys" represent the path one has to take to reach a node)
+- **Patricia Trie**: An efficient Radix Trie, a data structure in which "keys" represent the path one has to take to reach a node
 - **Merkle Tree**: A hash tree in which each node's hash is computed from its child nodes hashes.
 
 We'll begin by exploring Patricia tries, and then move on to Merkle Trees.
@@ -26,13 +26,13 @@ git clone https://github.com/gabrocheleau/merkle-patricia-tree-examples.git
 npm install
 ```
 
-Follow along with the numbered examples are in the /examples folder.
+You can follow along using the number examples in the /examples folder.
 
 ## 1. Creating and Updating Tries
 
 ### Example 1a - Creating and Updating a Base Trie
 
-Let's begin right away with a simple example. Don't worry if things aren't too clear for now. In this example, we'll create an empty trie, and store a single key-value pair within it.
+Let's begin right away with a simple example. Don't worry if things aren't too clear for now, they will become clearer as we go. In this example, we'll create an empty trie, and store a single key-value pair within it.
 
 ```jsx
 /* Example 1a - Creating and Updating a Base Trie*/
@@ -59,18 +59,18 @@ Value (String):  testValue
 Updated trie root: <Buffer 8e 81 43 67 21 33 dd 5a b0 0d fc 4b 01 14 60 ea 2a 7b 00 d9 10 dc 42 78 94 2a e9 10 5c b6 20 74>
 ```
 
-Quite simple. As expected, we can retrieve our value using the key, and the root of the tree has changed has automatically been updated. However, the example does not exactly reflect how Merkle Patricia Trees are used in Ethereum. Here are some things to keep in mind:
+Quite simple. As expected, we can retrieve our value using the key, and the root of the tree has automatically been updated. However, the example does not exactly reflect how Merkle Patricia Trees are used in Ethereum. Here are some things to keep in mind:
 
-- Keys and values are actually stored and retrieved as raw bytes. For example, the "BaseTrie" library automatically converted our "testKey" to bytes (<74 65 73 74 4b 65 79>).
+- Keys and values are actually stored and retrieved as raw bytes. As an example, the "BaseTrie" library automatically converted our "testKey" to bytes (<74 65 73 74 4b 65 79>).
 - Values undergo an additional transformation before they are stored. They are encoded using the [Recursive Length Prefix encoding function](https://github.com/ethereum/wiki/wiki/RLP). This allows the serialization of strings and arrays. The "BaseTrie" library also does that automatically.
-- Last but not least: in Ethereum, the keys also undergo a transformation. Instead of using the keys (or their raw bytes) directly, they are first converted using a hash function (keccak256). This ensures that the length of the keys stays the same (32-bytes). The BaseTrie library **does not** do this.
+- Last but not least: in Ethereum, the keys also undergo another transformation: they are converted using a hash function (keccak256). The BaseTrie library **does not** do this.
 
 ### Example 1b - Manually Creating and Updating a Secure Trie
 
 Let's retry the example above while respecting Ethereum's specification. We will therefore:
 
 - Use the keccak256 hash of the key instead of the key itself (using the "ethereumjs-util" library).
-- As a good practice, we'll also be converting our keys and values to Bytes (using "Buffer.from(\_string)").
+- As a good practice, we'll also convert our keys and values to Bytes (using "Buffer.from(\_string)").
 
 Here's what this looks like:
 
@@ -85,8 +85,8 @@ var trie = new Trie() // We create an empty Patricia Merkle Tree
 console.log('Empty trie root (Bytes): ', trie.root) // The trie root (32 bytes)
 
 async function test() {
-  await trie.put(keccak256(Buffer.from('testKey')), Buffer.from('testValue')) // We update (using "put") the trie with the key-value pair "testKey": "testValue"
-  const value = await trie.get(keccak256(Buffer.from('testKey'))) // We retrieve (using "get") the value at key "testKey"
+  await trie.put(keccak256(Buffer.from('testKey')), Buffer.from('testValue')) // We update (using "put") the trie with the key-value pair hash("testKey"): "testValue"
+  const value = await trie.get(keccak256(Buffer.from('testKey'))) // We retrieve (using "get") the value at hash("testKey"_
   console.log('Value (Bytes): ', value)
   console.log('Value (String): ', value.toString())
   console.log('Updated trie root:', trie.root) // The new trie root (32 bytes)
@@ -101,16 +101,16 @@ Value (String):  testValue
 Updated trie root: <Buffer be ad e9 13 ab 37 dc a0 dc a2 e4 29 24 b9 18 c2 a1 ca c4 57 83 3b d8 2b 9e 32 45 de cb 87 d0 fb>
 ```
 
-This does not change much from our point of view, except that the root hash of the trie has changed (as the key has changed from "testKey" to keccak256("testKey")).
+Not much change from our point of view, except that the root hash of the trie has changed (as the key has changed from "testKey" to keccak256("testKey")).
 
 ### Example 1c - Automatically Creating and Updating a Secure Trie
 
-Fortunately, there is a library called "SecureTrie" that automatically takes care of the keccak256 hashing for us. We can see that it outputs the same results as example1b.js
+Fortunately, there is a library called "SecureTrie" that automatically takes care of the keccak256 hashing for us. We can see that it outputs the same hash as example1b.js
 
 ```jsx
 /* Example 1c - Creating an empty Merkle Patricia Tree and updating it with a single key-value pair */
 
-const Trie = require('merkle-patricia-tree').SecureTrie // We import the library required to create a basic Merkle Patricia Tree
+const Trie = require('merkle-patricia-tree').SecureTrie // We import the library required to create a secure Merkle Patricia Tree
 
 var trie = new Trie() // We create an empty Patricia Merkle Tree
 console.log('Empty trie root (Bytes): ', trie.root) // The trie root (32 bytes)
@@ -129,10 +129,10 @@ test()
 Empty trie root (Bytes):  <Buffer 56 e8 1f 17 1b cc 55 a6 ff 83 45 e6 92 c0 f8 6e 5b 48 e0 1b 99 6c ad c0 01 62 2f b5 e3 63 b4 21>
 Value (Bytes):  <Buffer 74 65 73 74 56 61 6c 75 65>
 Value (String):  testValue
-Updated trie root: <Buffer be ad e9 13 ab 37 dc a0 dc a2 e4 29 24 b9 18 c2 a1 ca c4 57 83 3b d8 2b 9e 32 45 de cb 87 d0 fb> // SAME AS ABOVE!
+Updated trie root: <Buffer be ad e9 13 ab 37 dc a0 dc a2 e4 29 24 b9 18 c2 a1 ca c4 57 83 3b d8 2b 9e 32 45 de cb 87 d0 fb> // Same hash!
 ```
 
-We won't be using the keccak256 of the keys (or the SecureTrie library) in this tutorial, as that would make certain types of noded (like extensions) harder to create and notice. However, keep in
+For practical reasons, we won't be using the keccak256 of the keys (or the SecureTrie library) in the examples that follow as that would make certain examples less obvious.
 
 ### Example 1d - Deleting a Key-Value Pair from a Trie
 
@@ -171,22 +171,26 @@ Trie root after deletion: <Buffer 56 e8 1f 17 1b cc 55 a6 ff 83 45 e6 92 c0 f8 6
 
 Quite simple, isn't it? Notice that our trie root \*\*\*\*after deletion is the same as our initial trie root. This is exactly what we should expect, as we have deleted the only value-key pair from the tree!
 
+So far, we've seen that our "tries" behave like key-value dictionaries. They also produce consistent but seemingly random hashes, meaning that the same tree will generate the same hash every time.
+
 ## 2. A Deeper Look at Individual Nodes
 
-This is all great, but we haven't yet really dived into the inner workings of Merkle Patricia Trees. So far, we've only retrieved values associated with certain keys. However, we could also take a look at the individual nodes themselves (and not only the values they contain).
+This is all great, but we haven't yet really dived into the inner workings of Patricia Tries; we've only retrieved and deleted key-value pairs. However, there is something more interesting going on under the hood.
 
-[As per the documentation](https://github.com/ethereum/wiki/wiki/Patricia-Tree), a node in a Merkle Patricia tree is one of the following:
+As we said, a "key" in a trie is a path that we follow, step-by-step (i.e. one hex-value at a time) to reach a destination: our value. Every time we follow take a step along that tree, we reach a point called a "node". In Patricia Trees, there are different kinds of nodes, each with a distinct function:
 
-1. `null`
-2. `branch` A 17-item node `[ v0, ..., v15, vt ]`
-3. `leaf` A 2-item node `[ encodedPath, value ]`
-4. `extension` A 2-item node `[ encodedPath, hash ]`
+1. `null` A non-existent node.
+2. `branch` A node that links ("branches out") to up to 16 distinct child notes. Can also have a value itself.
+3. `leaf` An "end-node" that contains the final part of the path, and the value.
+4. `extension` A "shortcut" node, that provides a partial path of length > 1 and a destination. Used to "bypass" unecessary nodes when no other viable branches exist for a sequence of nodes.
 
-Basically, to improve efficiency, Merkle Patricia Trees provide a new type of node called `extension`. An `extension` replaces "useless" sequences of branches that contain only one valid index. This greatly improves efficiency. Don't worry if you don't get it yet, we'll go through examples.
+For a more technical documentation, [refer to the documentation](https://github.com/ethereum/wiki/wiki/Patricia-Tree)
+
+To improve the efficiency of standard Radix tries, Patricia Tries provide a new type of node of type `extension`. An `extension` replaces "useless" sequences of branches that contain only one valid index. Don't worry if you don't get it yet, we'll go through examples.
 
 ### Example 2a - Creating and looking up a null node
 
-This is quite straightforward. We'll simply look up a node (using "findPath") with a non-existent key.
+This is quite straightforward. We'll simply look up a node (using "findPath", a method that returns the node at a certain path) with a non-existent path.
 
 ```jsx
 // Example 2a - Creating and looking up a NULL node
@@ -206,13 +210,13 @@ test()
 Node 1:  null
 ```
 
-Nothing surprising here, the node is null.
+Nothing surprising here, there is no node associated with that path, so the node is null.
 
 ### Example 2b - Creating and looking up a branch node
 
 Creating a branch is a bit more complicated. For a branch to exist, we need to create a common path that eventually diverges.
 
-Notice how similar the following keys are (the bytes are what we're concerned with here):
+Notice how similar the following keys are (the bytes are what we should focus on):
 
 ```jsx
 console.log(Buffer.from('testKey'))
@@ -225,7 +229,7 @@ console.log(Buffer.from('testKeyA'))
 <Buffer 74 65 73 74 4b 65 79 41>
 ```
 
-We can see that the byte value of the keys branch off at byte < 79 >. This makes sense because < 79 > stands for the letter "y". Let's create these keys to our trie.
+We can see that the bytes reprensation of the keys branch off at byte < 79 >. This makes sense: < 79 > stands for the letter "y". Let's add those keys to our trie.
 
 ```jsx
 // Add a key-value pair to the trie for each key
@@ -261,7 +265,7 @@ Node:  BranchNode {
 }
 ```
 
-And indeed, the node at path "testKey" is a branch, containing 16 branches and a value. Let's first look at the value.
+And indeed, the node at path "testKey" is a branch, containing 16 branches and a value. Let's first look at the value located at the branch itself.
 
 ```jsx
 console.log('Node value: ', node1.node._value.toString()) // The branch node's value
@@ -270,7 +274,7 @@ console.log('Node value: ', node1.node._value.toString()) // The branch node's v
 Node value:  testValue
 ```
 
-Note that it's entirely possible for a branch node not to have a value itself, but only branches. This would simply mean that the keys (i.e. the paths) branch off at a certain point, but that there is no value assigned to that specific point. See for example:
+Note that it's entirely possible for a branch node not to have a value itself, but only branches. This would simply mean that the keys (i.e. the paths) branch off at a certain point, but that there is no end-value assigned at that specific point. See for example:
 
 ```jsx
 await trie.put(Buffer.from('testKey0'), Buffer.from('testValue0'))
@@ -308,7 +312,7 @@ Node value:  <Buffer >
 
 In this example, there is no value assigned to the key (path) "testKey" (an empty <Buffer >). However, the node at "testKey" is still a branch node, containing two branches (one leading to "testValue0", the other leading to "testValueA").
 
-Let's take a closer look at the branches.
+Let's take a closer look at the branches of our branch node.
 
 ```jsx
 console.log('Node branches: ', node1.node._branches)
@@ -334,7 +338,7 @@ Node branches:  [
 ]
 ```
 
-All of its branches are empty (denoted here as <Buffer >), except at indexes 3 and 4, corresponding to hex values 3 and 4. This makes sense, as this is the value at which our keys diverge:
+14/16 of its branches are empty (denoted here as <Buffer >). Only the branches at indexes 3 and 4 contain values. These indexes are not determined at random: they correspond to the next hex-value of the path of our two keys (hex values 3 and 4). This makes sense, as this is the value at which our keys diverge:
 
 ```jsx
 //      <------ same ------> <-> (different)
@@ -350,20 +354,20 @@ Going back to the branches above, we see that our two branches (at index 3 and 4
 [ <Buffer 31>, <Buffer 74 65 73 74 56 61 6c 75 65 41> ] // going down the path of "testKeyA"
 ```
 
-We're getting ahead of ourselves here, as these are leaf nodes. However, we see that each line contains two "buffers" (sequences of bytes). The first buffer is the remaining path (we'll get back to what the bytes stand for in a minute), while the second buffer is the value for that path. We can confirm that the values are what we'd expect:
+I'm getting ahead of myself here, but here's a spoiler: these are leaf nodes. We see that each line contains two "buffers" (sequences of bytes). And indeed: leaf nodes are arrays containing two items. The first item is the remaining path (we'll get back to what the bytes stand for in a minute), while the second buffer is the value at that path. We can confirm that the values are what we'd expect:
 
 ```jsx
-console.log('Value at branch at index 3: ', node1.node._branches[3][1].toString())
+console.log('Value of branch at index 3: ', node1.node._branches[3][1].toString())
 console.log('Value of branch at index 4: ', node1.node._branches[4][1].toString())
 
 // RESULT
-Value at branch at index 3:  testValue0
+Value of branch at index 3:  testValue0
 Value of branch at index 4:  testValueA
 ```
 
 Now here's a question for you:
 
-**What type of node do you think exists at path "testKe"?** After all, this is also a common path for our keys. Let's try it:
+**What type of node do you think exists at path "testKe"?** After all, this is also a common path, the first part of our 3 keys. Let's try it:
 
 ```jsx
 var node2 = await trie.findPath(Buffer.from('testKe')) // We retrieve the node at "testKe"
@@ -375,11 +379,11 @@ Node 2:  null
 
 A null node! Did you expect a branch node?
 
-This reveals a **key difference between standard ("Radix") tries and Patricia tries**. In standards tries, each step of the "path" would be a branch itself (i.e. branch node at <7>, <74>, <74 6>, <74 65>, and so on). However, creating a branch node for every step of the "path" is inefficient when there is only one valid "branch" for many of those steps. This is because we're repeatedly storing 17-item arrays that only contain only one non-null value. Patricia Tries avoids these unnecessary `branch` nodes by creating `extension` nodes at the beginning of the common path to act as "shortcuts". This explains why there is no branch node at key "testKe".
+This reveals a **key difference between standard ("Radix") tries and Patricia tries**. In standards tries, each step of the "path" would be a branch itself (i.e. branch node at <7>, <74>, <74 6>, <74 65>, and so on). However, creating a branch node for every step of the path is inefficient when there is only one valid "branch" for many of those steps. This is because we're repeatedly storing 17-item arrays that only contain only one non-null value. Patricia Tries avoids these unnecessary `branch` nodes by creating `extension` nodes at the beginning of the common path to act as "shortcuts". This explains why there is no branch node at key "testKe".
 
 ### The Encoded Path in Leaf and Extension Nodes
 
-We saw in one of our previous examples that the branches contained two buffers:
+We saw in one of our previous examples that the individual branches were leaf nodes:
 
 ```jsx
 // <--path-->  <------------- value ----------------->
@@ -387,9 +391,9 @@ We saw in one of our previous examples that the branches contained two buffers:
 [ <Buffer 31>, <Buffer 74 65 73 74 56 61 6c 75 65 41> ] // going down the path of "testKeyA"
 ```
 
-Each of these buffers is actually a leaf node. As we saw above in our specification, leaf nodes are arrays that contain two items: `[ encodedPath, value ]`. The encodedPath of our first leaf node is < 30 >, while the second is < 31 >. What does this mean?
+As we said above, leaf nodes are arrays that contain two items: `[ remainingPath, value ]`. The "remainingPath" of our first leaf node is < 30 >, while the second is < 31 >. What does this mean?
 
-The first hex character indicates whether the node is a leaf node, or an extension node (both nodes contain the item "encodedPath"). It also indicates whether or not the remaining path is of "odd" or "even" length (required to write complete bytes: simply indicates if the first hex character is appended with a "0" ).
+The first hex character (3) indicates whether the node is a leaf node, or an extension node (this is to prevent ambiguity, as both nodes have a similar structure). This first hex character also indicates whether or not the remaining path is of "odd" or "even" length (required to write complete bytes: this indicates if the first hex character is appended with a "0" ).
 
 See this table:
 
@@ -402,7 +406,7 @@ hex char    bits    |        node type         path length
    3        0011    |          leaf                odd
 ```
 
-In our example above, the first hexadecimal characters for the encodedPath of both nodes (< 30 > and < 31 >) was "3". This correctly indicates that the node is of type "leaf", and that the path that follows is of odd length. The second character ( < 0 > and < 1 >) indicates the last part of the path (the last hex character of our key).
+In our example above, the first hexadecimal characters for the encodedPath of both nodes (< 30 > and < 31 >) was "3". This correctly indicates that the node is of type "leaf", and that the path that follows is of odd length. The second character ( < 0 > and < 1 > respectively) indicates the last part of the path (the last hex character of our key).
 
 ```jsx
 //      <------ same ------> <-> (different)
@@ -410,7 +414,9 @@ In our example above, the first hexadecimal characters for the encodedPath of bo
 <Buffer 74 65 73 74 4b 65 79 41>           // "testKeyA", note that "A" = 41 in bytes
 ```
 
-With this in mind, let's look at leaf and extension nodes.
+You might wonder what happened with the second to last hex character (3 and 4 respectively). These are not necessary: they were already provided by the indexes of the previous branch node!
+
+With this in mind, let's take a closer look at leaf and extension nodes.
 
 ### Example 2c - Looking up a Leaf Node
 
