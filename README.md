@@ -1,12 +1,10 @@
-# merkle-patricia-trees-examples
-
-Collection of examples to explore Merkle Patricia Trees as used in Ethereum
+# Merkle Patricia Trees in Ethereum - An Interactive Tutorial using JavaScript
 
 Patricia Merkle Trees are the fundamental data structure on which Ethereum is built. In this tutorial, we will explore the inner workings of Ethereum's Patricia Merkle Trees, using follow-along examples written in JavaScript.
 
-# Preliminary information
+## Preliminary information
 
-If you're not familiar with Basic Merkle Trees, I recommend you begin by reading [Vitalik's "Merkling in Ethereum"](https://blog.ethereum.org/2015/11/15/merkling-in-ethereum/). Reading this article will give you a basic idea of what Merkle Trees are, why they're useful, and the significant advantages of using Merkle Patricia Trees over standard Merkle Trees.
+If you're not familiar with Basic Merkle Trees, I recommend you begin by reading [Vitalik's "Merkling in Ethereum"](https://blog.ethereum.org/2015/11/15/merkling-in-ethereum/). This will give you a basic idea of what Merkle Trees are, why they're useful, and the significant advantages of using Merkle Patricia Trees over standard Merkle Trees.
 
 A Patricia Merkle Tree is the combination of a:
 
@@ -15,25 +13,22 @@ A Patricia Merkle Tree is the combination of a:
 
 We'll begin by exploring Patricia tries, and then move on to Merkle Trees.
 
-# Setting up our environment
+## Setting up our environment
 
 We'll use nodeJS to run our JavaScript examples and npm to install the necessary packages.
 
-First, we need to clone the repository from GitHub (version 4.0.0). We then install the relevant packages and run the "build" command (which will automatically translate the TypeScript files into usable JavaScript files).
-
-I should create a personal repository where all the examples and required libraries will be included.
+First, we need to clone the repository from GitHub. We then install the relevant packages with npm install.
 
 ```bash
 git clone https://github.com/gabrocheleau/merkle-patricia-tree-examples.git
 npm install
-npm run build
 ```
 
-The numbered examples are in the /examples folder.
+Follow along with the numbered examples are in the /examples folder.
 
-# 1. Creating and Updating Tries
+## 1. Creating and Updating Tries
 
-## Example 1a - Creating and Updating a Base Trie
+### Example 1a - Creating and Updating a Base Trie
 
 Let's begin right away with a simple example. In this example, we create an empty trie, and store a single key-value pair within it.
 
@@ -341,8 +336,8 @@ All of its branches are empty (denoted here as <Buffer >), except at indexes 3 a
 
 ```jsx
 //      <------ same ------> <-> (different)
-<Buffer 74 65 73 74 4b 65 79 30>           // "testKey0", "0" = < 30 > in bytes
-<Buffer 74 65 73 74 4b 65 79 41>           // "testKeyA", "A" = < 41 > in bytes
+<Buffer 74 65 73 74 4b 65 79 30>           // "testKey0", "0" = 30 in bytes
+<Buffer 74 65 73 74 4b 65 79 41>           // "testKeyA", "A" = 41 in bytes
 ```
 
 Going back to the branches above, we see that our two branches (at index 3 and 4) are:
@@ -409,8 +404,8 @@ In our example above, the first hexadecimal characters for the encodedPath of bo
 
 ```jsx
 //      <------ same ------> <-> (different)
-<Buffer 74 65 73 74 4b 65 79 30>           // "testKey0", note that "0" = < 30 > in bytes
-<Buffer 74 65 73 74 4b 65 79 41>           // "testKeyA", note that "A" = < 41 > in bytes
+<Buffer 74 65 73 74 4b 65 79 30>           // "testKey0", note that "0" = 30 in bytes
+<Buffer 74 65 73 74 4b 65 79 41>           // "testKeyA", note that "A" = 41 in bytes
 ```
 
 With this in mind, let's look at leaf and extension nodes.
@@ -817,8 +812,4 @@ Awesome! This is the hash we started with!
 
 # Conclusion
 
-That's basically all Patricia Merkle Trees.
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/55b1a881-2749-442d-93f4-c03199db2163/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/55b1a881-2749-442d-93f4-c03199db2163/Untitled.png)
-
-Merkle Patricia Tree in Ethereum. Source: [https://ethereum.stackexchange.com/questions/268/ethereum-block-architecture](https://ethereum.stackexchange.com/questions/268/ethereum-block-architecture)
+This ends our exploration of Merkle Patricia Trees in Ethereum.
