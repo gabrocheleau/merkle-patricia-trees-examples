@@ -354,7 +354,7 @@ Going back to the branches above, we see that our two branches (at index 3 and 4
 [ <Buffer 31>, <Buffer 74 65 73 74 56 61 6c 75 65 41> ] // going down the path of "testKeyA"
 ```
 
-I'm getting ahead of myself here, but here's a spoiler: these are leaf nodes. We see that each line contains two "buffers" (sequences of bytes). And indeed: leaf nodes are arrays containing two items. The first item is the remaining path (we'll get back to what the bytes stand for in a minute), while the second buffer is the value at that path. We can confirm that the values are what we'd expect:
+I'm getting ahead of myself here, but here's a spoiler: these are leaf nodes. We see that each line contains two "buffers" (buffers are sequences of bytes). And indeed: leaf nodes are arrays containing two items. The first item is the remaining path (we'll get back to what the hex values stand for in a minute), while the second buffer is the value at that path. We can confirm that the values are what we'd expect:
 
 ```jsx
 console.log('Value of branch at index 3: ', node1.node._branches[3][1].toString())
@@ -379,19 +379,19 @@ Node 2:  null
 
 A null node! Did you expect a branch node?
 
-This reveals a **key difference between standard ("Radix") tries and Patricia tries**. In standards tries, each step of the "path" would be a branch itself (i.e. branch node at <7>, <74>, <74 6>, <74 65>, and so on). However, creating a branch node for every step of the path is inefficient when there is only one valid "branch" for many of those steps. This is because we're repeatedly storing 17-item arrays that only contain only one non-null value. Patricia Tries avoids these unnecessary `branch` nodes by creating `extension` nodes at the beginning of the common path to act as "shortcuts". This explains why there is no branch node at key "testKe".
+This reveals a **key difference between standard ("Radix") tries and Patricia tries**. In standards tries, each step of the "path" would be a branch itself (i.e. branch node at `<7>`, `<74>`, `<74 6>`, `<74 65>`, and so on). However, creating a branch node for every step of the path is inefficient when there is only one valid "branch" for many of those steps. This is inefficient because each branch is a 17-item array, so using them to store only one non-null value is wasteful. Patricia Tries avoids these unnecessary `branch` nodes by creating `extension` nodes at the beginning of the common path to act as "shortcuts". This explains why there is no branch node at key "testKe".
 
 ### The Encoded Path in Leaf and Extension Nodes
 
-We saw in one of our previous examples that the individual branches were leaf nodes:
+We saw in one of our previous examples that the individual branches were in fact pointing to leaf nodes:
 
 ```jsx
 // <--path-->  <------------- value ----------------->
-[ <Buffer 30>, <Buffer 74 65 73 74 56 61 6c 75 65 30> ] // going down the path of "testKey0"
-[ <Buffer 31>, <Buffer 74 65 73 74 56 61 6c 75 65 41> ] // going down the path of "testKeyA"
+[ <Buffer 30>, <Buffer 74 65 73 74 56 61 6c 75 65 30> ] // leaf node down the path of "testKey0"
+[ <Buffer 31>, <Buffer 74 65 73 74 56 61 6c 75 65 41> ] // leaf node down the path of "testKeyA"
 ```
 
-As we said above, leaf nodes are arrays that contain two items: `[ remainingPath, value ]`. The "remainingPath" of our first leaf node is < 30 >, while the second is < 31 >. What does this mean?
+As we said above, leaf nodes are arrays that contain two items: `[ remainingPath, value ]`. The "remainingPath" of our first leaf node is `<30>`, while the second is `<31>`. What does this mean?
 
 The first hex character (3) indicates whether the node is a leaf node, or an extension node (this is to prevent ambiguity, as both nodes have a similar structure). This first hex character also indicates whether or not the remaining path is of "odd" or "even" length (required to write complete bytes: this indicates if the first hex character is appended with a "0" ).
 
