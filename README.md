@@ -180,9 +180,9 @@ This is all great, but we haven't yet really dived into the inner workings of Pa
 As we said, a "key" in a trie is a path that we follow, step-by-step (i.e. one hex-value at a time) to reach a destination: our value. Every time we follow take a step along that tree, we reach a point called a "node". In Patricia Trees, there are different kinds of nodes, each with a distinct function:
 
 1. `null` A non-existent node.
-2. `branch` A node that links ("branches out") to up to 16 distinct child notes. Can also have a value itself.
-3. `leaf` An "end-node" that contains the final part of the path, and the value.
-4. `extension` A "shortcut" node, that provides a partial path of length > 1 and a destination. Used to "bypass" unecessary nodes when no other viable branches exist for a sequence of nodes.
+2. `branch` A node that links ("branches out") to up to 16 distinct child notes. A branch node can also itself have a value.
+3. `leaf` An "end-node" that contains the final part of the path, and a value.
+4. `extension` A "shortcut" node, that provides a partial path of length > 1 and a destination. Extension nodes are used to "bypass" unecessary nodes when only one valid branch exist for a sequence of nodes.
 
 For a more technical documentation, [refer to the documentation](https://github.com/ethereum/wiki/wiki/Patricia-Tree)
 
