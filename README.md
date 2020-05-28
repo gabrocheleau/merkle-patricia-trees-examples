@@ -26,7 +26,7 @@ git clone https://github.com/gabrocheleau/merkle-patricia-tree-examples.git
 npm install
 ```
 
-You can follow along using the number examples in the /examples folder.
+You can follow along using the numbered examples in the /examples folder.
 
 ## 1. Creating and Updating Tries
 
