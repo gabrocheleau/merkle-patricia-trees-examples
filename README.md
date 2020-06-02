@@ -63,9 +63,9 @@ Value (String):  testValue
 Updated trie root: <Buffer 8e 81 43 67 21 33 dd 5a b0 0d fc 4b 01 14 60 ea 2a 7b 00 d9 10 dc 42 78 94 2a e9 10 5c b6 20 74>
 ```
 
-Quite simple. As expected, we can retrieve our value using the key. We can also note that the root of the tree has automatically been updated. We'll explore what tree roots stand for later; for now, simply know that each distinct tree will has a distinct root (we can therefore quickly know if two trees are identical by comparing their roots!).
+Quite simple. As expected, we can retrieve our value using the key. We can also note that the root hash of the tree has automatically been updated. We'll explore what tree roots stand for later; for now, simply know that each distinct tree will has a distinct root (we can therefore quickly know if two trees are identical by comparing their roots!).
 
-However, the example above does not reflect exactly how key-value pairs are stored and retrieve in Ethereum's Merkle Patricia Trees. Here are some things to keep in mind:
+However, the example above does not reflect exactly how key-value pairs are stored and retrieved in Ethereum's Merkle Patricia Trees. Here are some things to keep in mind:
 
 - Keys and values are actually stored and retrieved as raw bytes. As an example, the "BaseTrie" library automatically converted our "testKey" to bytes (`<74 65 73 74 4b 65 79>`).
 - Values undergo an additional transformation before they are stored. They are encoded using the [Recursive Length Prefix encoding function](https://github.com/ethereum/wiki/wiki/RLP). This allows the serialization of strings and arrays. The "BaseTrie" library also does that automatically.
@@ -73,7 +73,7 @@ However, the example above does not reflect exactly how key-value pairs are stor
 
 ### Example 1b - Manually Creating and Updating a Secure Trie
 
-Let's retry the example above while respecting Ethereum's specification. We will therefore:
+Let's retry the example above while respecting the rules we just mentioned. We will therefore:
 
 - Use the keccak256 hash of the key instead of the key itself (using the "ethereumjs-util" library).
 - As a good practice, we'll also convert our keys and values to Bytes (using "Buffer.from(\_string)").
@@ -81,9 +81,7 @@ Let's retry the example above while respecting Ethereum's specification. We will
 Here's what this looks like:
 
 ```jsx
-/* Example 1b - Manually Creating and Updating a Secure Trie*/
-
-const Trie = require('merkle-patricia-tree').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
+const Trie = require('merkle-patricia-tree').BaseTrie
 const ethereumjs_util_1 = require('ethereumjs-util')
 const keccak256 = ethereumjs_util_1.keccak256
 
@@ -107,15 +105,13 @@ Value (String):  testValue
 Updated trie root: <Buffer be ad e9 13 ab 37 dc a0 dc a2 e4 29 24 b9 18 c2 a1 ca c4 57 83 3b d8 2b 9e 32 45 de cb 87 d0 fb>
 ```
 
-Not much change from our point of view, except that the root hash of the trie has changed (as the key has changed from "testKey" to keccak256("testKey")).
+Nothing spectacular: only the root hash of the tree has changed, as the key has changed from "testKey" to keccak256("testKey").
 
 ### Example 1c - Automatically Creating and Updating a Secure Trie
 
-Fortunately, there is a library called "SecureTrie" that automatically takes care of the keccak256 hashing for us. We can see that it outputs the same hash as example1b.js
+Fortunately, we also have a library called "SecureTrie" that automatically takes care of the keccak256 hashing for us. We can see that it outputs the same root hash as example1b.js
 
 ```jsx
-/* Example 1c - Creating an empty Merkle Patricia Tree and updating it with a single key-value pair */
-
 const Trie = require('merkle-patricia-tree').SecureTrie // We import the library required to create a secure Merkle Patricia Tree
 
 var trie = new Trie() // We create an empty Merkle Patricia Tree
@@ -138,20 +134,13 @@ Value (String):  testValue
 Updated trie root: <Buffer be ad e9 13 ab 37 dc a0 dc a2 e4 29 24 b9 18 c2 a1 ca c4 57 83 3b d8 2b 9e 32 45 de cb 87 d0 fb> // Same hash!
 ```
 
-For practical reasons, we won't be using the keccak256 of the keys (or the SecureTrie library) in the examples that follow as that would make certain examples less obvious.
+To make the examples easier to follow, we won't be using the keccak256 of the keys (or the SecureTrie library) in this tutorial. However, keep in mind that inside Ethereum, keys are always encoded.
 
 ### Example 1d - Deleting a Key-Value Pair from a Trie
 
-In additional to retrieving (using "get") and adding (using "put") key-value pairs to our tree, we can also delete certain key-value pairs (using "del").
+In addition to retrieving (using the method `get`) and adding (using the method `put`) key-value pairs to our tree, we can delete key-value pairs (using the method `del`).
 
 ```jsx
-/* Example 1d - Deleting a Key-Value Pair from a Trie*/
-
-const Trie = require('merkle-patricia-tree').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
-
-var trie = new Trie() // We create an empty Merkle Patricia Tree
-console.log('Empty trie root: ', trie.root) // The trie root
-
 async function test() {
   await trie.put('testKey', 'testValue') // We update (using "put") the trie with the key-value pair "testKey": "testValue"
   var value = await trie.get('testKey') // We retrieve (using "get") the value at key "testKey"
