@@ -23,6 +23,7 @@ First, we need to clone the repository from GitHub. We then install the relevant
 
 ```bash
 git clone https://github.com/gabrocheleau/merkle-patricia-tree-examples.git
+cd merkle-patricia-tree-examples/
 npm install
 ```
 
