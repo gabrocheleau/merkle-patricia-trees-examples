@@ -43,7 +43,7 @@ var trie = new Trie() // We create an empty Merkle Patricia Tree
 console.log('Empty trie root (Bytes): ', trie.root) // The trie root (32 bytes)
 ```
 
-and store a single key-value pair within it:
+and then store and retrieve a single key-value pair within it:
 
 ```jsx
 async function test() {
@@ -63,7 +63,9 @@ Value (String):  testValue
 Updated trie root: <Buffer 8e 81 43 67 21 33 dd 5a b0 0d fc 4b 01 14 60 ea 2a 7b 00 d9 10 dc 42 78 94 2a e9 10 5c b6 20 74>
 ```
 
-Quite simple. As expected, we can retrieve our value using the key, and the root of the tree has automatically been updated. However, the example does not exactly reflect how Merkle Patricia Trees are used in Ethereum. Here are some things to keep in mind:
+Quite simple. As expected, we can retrieve our value using the key. We can also note that the root of the tree has automatically been updated. We'll explore what these roots are later; for now, simply know that each distinct tree will has a distinct root (we can therefore quickly know if two trees are identical by comparing their roots!).
+
+However, the example above does not reflect exactly how key-value pairs are stored and retrieve in Ethereum's Merkle Patricia Trees. Here are some things to keep in mind:
 
 - Keys and values are actually stored and retrieved as raw bytes. As an example, the "BaseTrie" library automatically converted our "testKey" to bytes (`<74 65 73 74 4b 65 79>`).
 - Values undergo an additional transformation before they are stored. They are encoded using the [Recursive Length Prefix encoding function](https://github.com/ethereum/wiki/wiki/RLP). This allows the serialization of strings and arrays. The "BaseTrie" library also does that automatically.
