@@ -13,7 +13,9 @@ A Merkle Patricia Tree is the combination of a:
 - **Patricia Trie**: An efficient Radix Trie, a data structure in which "keys" represent the path one has to take to reach a node
 - **Merkle Tree**: A hash tree in which each node's hash is computed from its child nodes hashes.
 
-We'll begin by exploring the "Patricia Trie" part of Merkle Patricia Trees, and then integreate their "Merkle Tree" part.
+We'll begin by exploring the "Patricia Trie" part of Merkle Patricia Trees, and then integreate their "Merkle Tree" part. 
+
+*Note that since Merkle Patricia Trees are created from "Tries" and "Trees", they are sometimes refered to as "Tries", and other times as "Trees". In this tutorial, I'll try to use the word "Tree" when talking about "Merkle Patricia Trees" or "Merkle Trees", and "Trie" when talking about "Radix Tries" or "Patricia Tries". Ultimately, this doesn't really matter, so don't get too hung up ont these two terms.* 
 
 ## Setting up our environment
 
@@ -164,15 +166,15 @@ Value at key "testKey":  null
 Trie root after deletion: <Buffer 56 e8 1f 17 1b cc 55 a6 ff 83 45 e6 92 c0 f8 6e 5b 48 e0 1b 99 6c ad c0 01 62 2f b5 e3 63 b4 21>
 ```
 
-Quite simple, isn't it? Notice that our trie root \*\*\*\*after deletion is the same as our initial trie root. This is exactly what we should expect, as we have deleted the only value-key pair from the tree!
+Quite simple, isn't it? Notice that our tree root after deletion is the same as our initial tree  root. This is exactly what we should expect: having deleted the only value-key pair from our tree, we are left with an empty tree!
 
-So far, we've seen that our "tries" behave like key-value dictionaries. They also produce consistent but seemingly random hashes, meaning that the same tree will generate the same hash every time.
+So far, we've seen that our "trees/tries"  behave like normal key-value dictionaries. They also produce consistent but seemingly random hashes: the same tree generates the same hash every time.
 
 ## 2. A Deeper Look at Individual Nodes
 
-This is all great, but we haven't yet really dived into the inner workings of Patricia Tries; we've only retrieved and deleted key-value pairs. However, there is something more interesting going on under the hood.
+This is all great, but we haven't yet really dived into the inner workings of Merkle Patricia Trees; we've only stored, retrieved and deleted key-value pairs. There are much more interesting mysteries ahead of us!
 
-As we said, a "key" in a trie is a path that we follow, step-by-step (i.e. one hex-value at a time) to reach a destination: our value. Every time we follow take a step along that tree, we reach a point called a "node". In Patricia Trees, there are different kinds of nodes, each with a distinct function:
+As we said, in a standard "trie", a key is a path that we follow step-by-step (i.e. one hex-value at a time) to reach a destination: our value. Every time we follow take a step along that trie, we reach a point called a "node". In Patricia Tries, there are different kinds of nodes, each with a distinct function:
 
 1. `null` A non-existent node.
 2. `branch` A node that links ("branches out") to up to 16 distinct child notes. A branch node can also itself have a value.
