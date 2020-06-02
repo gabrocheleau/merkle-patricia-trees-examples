@@ -2,13 +2,13 @@
 
 ## An Interactive Tutorial using JavaScript
 
-Merkle Patricia Trees are the fundamental data structure on which Ethereum is built. In this tutorial, we will explore the inner workings of Ethereum's Patricia Merkle Trees, using follow-along examples written in JavaScript. This tutorial uses the excellent [merkle-patricia-tree](https://github.com/ethereumjs/merkle-patricia-tree) library built by the ethereumjs team.
+Merkle Patricia Trees are the fundamental data structure on which Ethereum is built. In this tutorial, we will explore the inner workings of Ethereum's Merkle Patricia Trees, using follow-along examples written in JavaScript. This tutorial uses the excellent [merkle-patricia-tree](https://github.com/ethereumjs/merkle-patricia-tree) library built by the ethereumjs team.
 
 ## Preliminary information
 
 If you're not familiar with Merkle Trees, I recommend you begin by reading [Vitalik's "Merkling in Ethereum"](https://blog.ethereum.org/2015/11/15/merkling-in-ethereum/). This article will give you a basic idea of what Merkle Trees are, why they're useful, and give you a glimpse of the significant advantages of Merkle Patricia Trees over standard Merkle Trees.
 
-A Patricia Merkle Tree is the combination of a:
+A Merkle Patricia Tree is the combination of a:
 
 - **Patricia Trie**: An efficient Radix Trie, a data structure in which "keys" represent the path one has to take to reach a node
 - **Merkle Tree**: A hash tree in which each node's hash is computed from its child nodes hashes.
@@ -82,7 +82,7 @@ const Trie = require('merkle-patricia-tree').BaseTrie // We import the library r
 const ethereumjs_util_1 = require('ethereumjs-util')
 const keccak256 = ethereumjs_util_1.keccak256
 
-var trie = new Trie() // We create an empty Patricia Merkle Tree
+var trie = new Trie() // We create an empty Merkle Patricia Tree
 console.log('Empty trie root (Bytes): ', trie.root) // The trie root (32 bytes)
 
 async function test() {
@@ -113,7 +113,7 @@ Fortunately, there is a library called "SecureTrie" that automatically takes car
 
 const Trie = require('merkle-patricia-tree').SecureTrie // We import the library required to create a secure Merkle Patricia Tree
 
-var trie = new Trie() // We create an empty Patricia Merkle Tree
+var trie = new Trie() // We create an empty Merkle Patricia Tree
 console.log('Empty trie root (Bytes): ', trie.root) // The trie root (32 bytes)
 
 async function test() {
@@ -144,7 +144,7 @@ In additional to retrieving (using "get") and adding (using "put") key-value pai
 
 const Trie = require('merkle-patricia-tree').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
 
-var trie = new Trie() // We create an empty Patricia Merkle Tree
+var trie = new Trie() // We create an empty Merkle Patricia Tree
 console.log('Empty trie root: ', trie.root) // The trie root
 
 async function test() {
@@ -198,7 +198,7 @@ This is quite straightforward. We'll simply look up a node (using "findPath", a 
 
 const Trie = require('merkle-patricia-tree').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
 
-var trie = new Trie() // We create an empty Patricia Merkle Tree
+var trie = new Trie() // We create an empty Merkle Patricia Tree
 
 async function test() {
   var node1 = await trie.findPath(Buffer.from('testKey')) // We attempt to retrieve the node using the key "testKey"
@@ -556,7 +556,7 @@ That's all! We've covered all four types of nodes. I encourage you to play with 
 
 We're almost there! The only thing we haven't covered is the "Merkle" part of the Merkle Patricia Trees. As you may know, Merkle trees are hash trees that allow us to efficiently verify information (such as "Has this transaction been confirmed?" in the context of blockchains).
 
-In Ethereum's Patricia Merkle Trees, each node is referenced to by its hash. Note that this hash also can be referred to as a "key", which can be confusing. **Note that the hash is not the same as the path we take when going down the trie**.
+In Ethereum's Merkle Patricia Trees, each node is referenced to by its hash. Note that this hash also can be referred to as a "key", which can be confusing. **Note that the hash is not the same as the path we take when going down the trie**.
 
 You can think of paths as a sequence of instructions for a given input, something like "_go down branch #3 → go down this extension → go down branch #8 → you have arrived at your destination: a leaf_". Hashes, on the other hand, acts as unique identifiers for each node. Hashes are not generated at random: they are generated in a way that allows the verification of data.
 
