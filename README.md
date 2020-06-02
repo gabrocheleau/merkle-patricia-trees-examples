@@ -63,7 +63,7 @@ Value (String):  testValue
 Updated trie root: <Buffer 8e 81 43 67 21 33 dd 5a b0 0d fc 4b 01 14 60 ea 2a 7b 00 d9 10 dc 42 78 94 2a e9 10 5c b6 20 74>
 ```
 
-Quite simple. As expected, we can retrieve our value using the key. We can also note that the root of the tree has automatically been updated. We'll explore what these roots stand for later; for now, simply know that each distinct tree will has a distinct root (we can therefore quickly know if two trees are identical by comparing their roots!).
+Quite simple. As expected, we can retrieve our value using the key. We can also note that the root of the tree has automatically been updated. We'll explore what tree roots stand for later; for now, simply know that each distinct tree will has a distinct root (we can therefore quickly know if two trees are identical by comparing their roots!).
 
 However, the example above does not reflect exactly how key-value pairs are stored and retrieve in Ethereum's Merkle Patricia Trees. Here are some things to keep in mind:
 
