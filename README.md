@@ -13,7 +13,7 @@ A Merkle Patricia Tree is the combination of a:
 - **Patricia Trie**: An efficient Radix Trie, a data structure in which "keys" represent the path one has to take to reach a node
 - **Merkle Tree**: A hash tree in which each node's hash is computed from its child nodes hashes.
 
-We'll begin by exploring Patricia tries, and then move on to Merkle Trees.
+We'll begin by exploring the "Patricia Trie" part of Merkle Patricia Trees, and then integreate their "Merkle Tree" part.
 
 ## Setting up our environment
 
