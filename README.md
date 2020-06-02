@@ -31,18 +31,21 @@ You can follow along using the numbered examples in the /examples folder.
 
 ## 1. Creating and Updating Tries
 
+At their most basic, Merkle Patricia Trees allow us to store and retrieve key-value pairs. 
+
 ### Example 1a - Creating and Updating a Base Trie
 
-Let's begin right away with a simple example. Don't worry if things aren't too clear for now, they will become clearer as we go. In this example, we'll create an empty trie, and store a single key-value pair within it.
-
+Let's begin right away with a simple example. Don't worry if things aren't too clear for now, they will become clearer as we go. In this example, we'll create an empty trie:
 ```jsx
-/* Example 1a - Creating and Updating a Base Trie*/
-
 const Trie = require('merkle-patricia-tree').BaseTrie // We import the library required to create a basic Merkle Patricia Tree
 
 var trie = new Trie() // We create an empty Merkle Patricia Tree
 console.log('Empty trie root (Bytes): ', trie.root) // The trie root (32 bytes)
+```
 
+and store a single key-value pair within it:
+
+```jsx
 async function test() {
   await trie.put('testKey', 'testValue') // We update (using "put") the trie with the key-value pair "testKey": "testValue"
   const value = await trie.get('testKey') // We retrieve (using "get") the value at key "testKey"
