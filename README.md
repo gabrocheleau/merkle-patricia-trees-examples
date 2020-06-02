@@ -8,14 +8,14 @@ Merkle Patricia Trees are the fundamental data structure on which Ethereum is bu
 
 If you're not familiar with Merkle Trees, I recommend you begin by reading [Vitalik's "Merkling in Ethereum"](https://blog.ethereum.org/2015/11/15/merkling-in-ethereum/). This article will give you a basic idea of what Merkle Trees are, why they're useful, and give you a glimpse of the significant advantages of Merkle Patricia Trees over standard Merkle Trees.
 
-A Merkle Patricia Tree is the combination of a:
+A Merkle Patricia Tree* is the combination of a:
 
 - **Patricia Trie**: An efficient Radix Trie, a data structure in which "keys" represent the path one has to take to reach a node
 - **Merkle Tree**: A hash tree in which each node's hash is computed from its child nodes hashes.
 
 We'll begin by exploring the "Patricia Trie" part of Merkle Patricia Trees, and then integreate their "Merkle Tree" part. 
 
-*Note that since Merkle Patricia Trees are created from "Tries" and "Trees", they are sometimes refered to as "Tries", and other times as "Trees". In this tutorial, I'll try to use the word "Tree" when talking about "Merkle Patricia Trees" or "Merkle Trees", and "Trie" when talking about "Radix Tries" or "Patricia Tries". Ultimately, this doesn't really matter, so don't get too hung up ont these two terms.* 
+*\*Note that since Merkle Patricia Trees are created from "Tries" and "Trees", they are sometimes refered to as "Tries", and other times as "Trees". In this tutorial, I'll try to use the word "Tree" when talking about "Merkle Patricia Trees" or "Merkle Trees", and "Trie" when talking about "Radix Tries" or "Patricia Tries". Ultimately, this doesn't really matter, so don't get too hung up ont these two terms.* 
 
 ## Setting up our environment
 
