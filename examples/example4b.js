@@ -1,8 +1,7 @@
 // Example 4b - Generating a Transaction Hash from Transaction Data
 
 const rlp = require("rlp");
-const ethereumjs_util_1 = require("ethereumjs-util");
-const keccak256 = ethereumjs_util_1.keccak256;
+const { keccak256 } = require('ethereumjs-util')
 
 const INFURIA_ENDPOINT = require("./infura_endpoint");
 const Web3 = require("web3");
