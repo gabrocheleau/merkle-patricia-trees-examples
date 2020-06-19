@@ -84,8 +84,7 @@ Here's what this looks like:
 
 ```jsx
 const Trie = require('merkle-patricia-tree').BaseTrie
-const ethereumjs_util_1 = require('ethereumjs-util')
-const keccak256 = ethereumjs_util_1.keccak256
+const { keccak256 } = require('ethereumjs-util')
 
 var trie = new Trie() // We create an empty Merkle Patricia Tree
 console.log('Empty trie root (Bytes): ', trie.root) // The trie root (32 bytes)
