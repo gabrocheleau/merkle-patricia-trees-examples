@@ -1,8 +1,7 @@
 /* Example 1b - Manually Creating and Updating a Secure Trie*/
 
 const Trie = require("merkle-patricia-tree").BaseTrie; // We import the library required to create a basic Merkle Patricia Tree
-const ethereumjs_util_1 = require("ethereumjs-util");
-const keccak256 = ethereumjs_util_1.keccak256;
+const { keccak256 } = require('ethereumjs-util')
 
 var trie = new Trie(); // We create an empty Patricia Merkle Tree
 console.log("Empty trie root (Bytes): ", trie.root); // The trie root (32 bytes)
