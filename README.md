@@ -13,9 +13,9 @@ A Merkle Patricia Tree* is the combination of a:
 - **Patricia Trie**: An efficient Radix Trie, a data structure in which "keys" represent the path one has to take to reach a node
 - **Merkle Tree**: A hash tree in which each node's hash is computed from its child nodes hashes.
 
-We'll begin by exploring the "Patricia Trie" part of Merkle Patricia Trees, and then integreate their "Merkle Tree" part. 
+We'll begin by exploring the "Patricia Trie" part of Merkle Patricia Trees, and then integrate their "Merkle Tree" part. 
 
-*_Note that since Merkle Patricia Trees are created from "Tries" and "Trees", they are sometimes refered to as "Merkle Patricia Trees", and sometimes as "Merkle Patricia Tries". In this tutorial, I'll try using the word "Tree" when talking about "Merkle Patricia Trees" or "Merkle Trees", and "Trie" when talking about "Radix Tries" or "Patricia Tries". Ultimately, this doesn't really matter, so don't get too hung up on these two terms._
+*_Note that since Merkle Patricia Trees are created from "Tries" and "Trees", they are sometimes referred to as "Merkle Patricia Trees", and sometimes as "Merkle Patricia Tries". In this tutorial, I'll try using the word "Tree" when talking about "Merkle Patricia Trees" or "Merkle Trees", and "Trie" when talking about "Radix Tries" or "Patricia Tries". Ultimately, this doesn't matter too much, so don't get too hung up on these two terms._
 
 ## Setting up our environment
 
@@ -65,11 +65,11 @@ Value (String):  testValue
 Updated trie root: <Buffer 8e 81 43 67 21 33 dd 5a b0 0d fc 4b 01 14 60 ea 2a 7b 00 d9 10 dc 42 78 94 2a e9 10 5c b6 20 74>
 ```
 
-Quite simple. As expected, we can retrieve our value using the key. We can also note that the root hash of the tree has automatically been updated. We'll explore what tree roots stand for later; for now, simply know that each distinct tree will has a distinct root (we can therefore quickly know if two trees are identical by comparing their roots!).
+Quite simple. As expected, we can retrieve our value using the key. We can also note that the root hash of the tree has automatically been updated. We'll explore what tree roots stand for later; for now, simply know that each distinct tree will have a distinct root (we can therefore quickly know if two trees are identical by comparing their roots!).
 
 However, the example above does not reflect exactly how key-value pairs are stored and retrieved in Ethereum's Merkle Patricia Trees. Here are some things to keep in mind:
 
-- Keys and values are actually stored and retrieved as raw bytes. As an example, the "BaseTrie" library automatically converted our "testKey" to bytes (`<74 65 73 74 4b 65 79>`).
+- Keys and values are stored and retrieved as raw bytes. As an example, the "BaseTrie" library automatically converted our "testKey" to bytes (`<74 65 73 74 4b 65 79>`).
 - Values undergo an additional transformation before they are stored. They are encoded using the [Recursive Length Prefix encoding function](https://github.com/ethereum/wiki/wiki/RLP). This allows the serialization of strings and arrays. The "BaseTrie" library also does that automatically.
 - Last but not least: in Ethereum, the keys also undergo another transformation: they are converted using a hash function (keccak256). The BaseTrie library **does not** do this.
 
@@ -179,7 +179,7 @@ As we said, in a standard "trie", the key is a path we follow step-by-step (i.e.
 1. `null` A non-existent node.
 2. `branch` A node that links ("branches out") to up to 16 distinct child notes. A branch node can also itself have a value.
 3. `leaf` An "end-node" that contains the final part of the path and a value.
-4. `extension` A "shortcut" node that provides a partial path and a destination. Extension nodes are used to "bypass" unecessary nodes when only one valid branch exists for a sequence of nodes.
+4. `extension` A "shortcut" node that provides a partial path and a destination. Extension nodes are used to "bypass" unnecessary nodes when only one valid branch exists for a sequence of nodes.
 
 For more technical details, [refer to the documentation](https://github.com/ethereum/wiki/wiki/Patricia-Tree)
 
@@ -265,7 +265,7 @@ console.log('Node value: ', node1.node._value.toString()) // The branch node's v
 Node value:  testValue
 ```
 
-Note that it's entirely possible for a branch node not to have a value itself, but only branches. This would simply mean that the keys (i.e. the paths) branch off at a certain point, but that there is no end-value assigned at that specific point. See for example:
+Note that it's possible for a branch node to not have a value itself, but only branches. This would simply mean that the keys (i.e. the paths) branch off at a certain point, but that there is no end-value assigned at that specific point. See for example:
 
 ```jsx
 await trie.put(Buffer.from('testKey0'), Buffer.from('testValue0'))
@@ -370,7 +370,7 @@ Node 2:  null
 
 A null node! Did you expect a branch node?
 
-This reveals a **key difference between standard ("Radix") tries and Patricia tries**. In standards tries, each step of the "path" would be a branch itself (i.e. branch node at `<7>`, `<74>`, `<74 6>`, `<74 65>`, and so on). However, creating a branch node for every step of the path is inefficient when there is only one valid "branch" for many of those steps. This is inefficient because each branch is a 17-item array, so using them to store only one non-null value is wasteful. Patricia tries avoids these unnecessary `branch` nodes by creating `extension` nodes at the beginning of the common path to act as "shortcuts". This explains why there is no branch node at key "testKe": it's bypassed by an extension node that begins higher-up (i.e. earlier in the path) in the trie.
+This reveals a **key difference between standard ("Radix") tries and Patricia tries**. In standards tries, each step of the "path" would be a branch itself (i.e. branch node at `<7>`, `<74>`, `<74 6>`, `<74 65>`, and so on). However, creating a branch node for every step of the path is inefficient when there is only one valid "branch" for many of those steps. This is inefficient because each branch is a 17-item array, so using them to store only one non-null value is wasteful. Patricia tries avoid these unnecessary `branch` nodes by creating `extension` nodes at the beginning of the common path to act as "shortcuts". This explains why there is no branch node at key "testKe": it's bypassed by an extension node that begins higher-up (i.e. earlier in the path) in the trie.
 
 ### The Encoded Path in Leaf and Extension Nodes
 
@@ -397,7 +397,7 @@ hex char    bits    |        node type         path length
    3        0011    |          leaf                odd
 ```
 
-In our code above, the first hexadecimal characters for the encodedPath of both nodes (`<30>` and `<31>`) was `3`. This correctly indicates that the node is of type `leaf`, and that the path that follows is of odd length. The second character ( `<0>` and `<1>` respectively) indicates the last part of the path (the last hex character of our key).
+In our code above, the first hexadecimal characters for the encodedPath of both nodes (`<30>` and `<31>`) was `3`. This correctly indicates that the node is of type `leaf` and that the path that follows is of odd length. The second character ( `<0>` and `<1>` respectively) indicates the last part of the path (the last hex character of our key).
 
 ```jsx
 //      <------ same ------> <-> (different)
@@ -540,7 +540,7 @@ BranchNode {
 
 Another branch node, itself containing two leaf nodes at indexes `3` and `4`, just like in our previous example!
 
-That's all for the four types of nodes. Congratulations on making it this far: the hardest part of Merkle Patricia Trees is now behind us! Before going further, I encourage you to play with the examples and build your own nodes! Try to create one of each on your own. If you'd like, you can also go through [this other example](https://github.com/ethereum/wiki/wiki/Patricia-Tree#example-trie) that presents the same concepts from a slightly different angle.
+That's all for the four types of nodes. Congratulations on making it this far: the hardest part of Merkle Patricia Trees is now behind us! Before going further, I encourage you to play with the examples and build your nodes! Try to create and verify one of each type by yourself. If you'd like, you can also go through [this other example](https://github.com/ethereum/wiki/wiki/Patricia-Tree#example-trie). It presents the same concepts from a slightly different angle.
 
 ## 3. Generating and Verifying Hashes
 
@@ -548,7 +548,7 @@ We're almost there! The only thing we haven't covered is the "Merkle" part of th
 
 In Ethereum's Merkle Patricia Trees, each node is referenced to by its hash. Note that this hash also can be referred to as a "key", which can be confusing. **Note that the hash is not the same as the path we take when going down the trie**.
 
-You can think of paths as a sequence of instructions for a given input, something like "_go down branch #3 → go down this extension → go down branch #8 → you have arrived at your destination: a leaf_". Hashes, on the other hand, act as unique identifiers for each node. In addition, hashes are generated in a way that allows the verification of data.
+You can think of paths as a sequence of instructions for a given input, something like "_go down branch #3 → go down this extension → go down branch #8 → you have arrived at your destination: a leaf_". Hashes, on the other hand, act as unique identifiers for each node and are generated in a way that allows the verification of data.
 
 So, how is are hashes calculated in Ethereum? 
 1. First, all values from the node are serialized using the [Recursive Length Prefix encoding function](https://github.com/ethereum/wiki/wiki/RLP).
@@ -640,15 +640,15 @@ BranchNode {
 
 Now let's suppose that I'm provided with various pieces of information, some that I trust, and some that I don't. Here's what I know from a trustworthy source:
 
-- The tree contains key-value pair "testKey" : "testValue"
+- The tree contains key-value pair "testKey": "testValue"
 - There also exists a branch node with hash: `<Buffer 70 b3 d0 20 ad 85 8f d6 00 28 a4 23 e9 8f 1d 99 c5 37 cd b9 1f 27 49 16 40 06 6f ea c7 9c 2f 72>`.
 - The path corresponding to this branch node is "testKey000".
 - This branch node contains at least one valid branch. This branch is located at index 4, with value [ `<Buffer 31>`, `<Buffer 74 65 73 74 56 61 6c 75 65 31>` ] (equivalent to key-value pair "testKey0001": "testValue1")
 
 Now, I'm getting conflicting information from two other shady sources:
 
-- Marie claims that: _That branch node contains another branch, representing key-value pair "testKey000A" : "testValueA"_
-- John claims that: _That branch node contains another branch, representing key-value pairs "testKey000z" : "testValuez"._
+- Marie claims that: _That branch node contains another branch, representing key-value pair "testKey000A": "testValueA"_
+- John claims that: _That branch node contains another branch, representing key-value pairs "testKey000z": "testValuez"._
 
 How can I determine who's telling the truth? Simple: by computing the branch node hash for each possibility, and comparing them with our trusted branch node hash!
 
@@ -704,9 +704,9 @@ In this tutorial, we'll look at the transactions tree. We'll even interact with 
 
 ### Configuring additional tools
 
-To interact with the Ethereum blockchain, we will use a JavaScript library called "web3.js". We will also need to setup an API access to the Ethereum blockchain using a free tool called [Infura](https://infura.io/).
+To interact with the Ethereum blockchain, we will use a JavaScript library called "web3.js". We will also need to set up an API access to the Ethereum blockchain using a free tool called [Infura](https://infura.io/).
 
-If you want to follow along these examples, you will need to create a free Infura account using this link: [https://infura.io/register](https://infura.io/register). Once you have created your account, create a new project, and copy the first URL under "Endpoints / Mainnet" (something like https://mainnet.infura.io/v3/YOUR_KEY). Then, replace the string "YOUR_INFURA_MAINNET_ENDPOINT" in ./examples/infura-endpoint.js with full your copied Infura URL. You should be good to go! If not, refer to [this tutorial](https://coderrocketfuel.com/article/configure-infura-with-web3-js-and-node-js).
+If you want to follow along with these examples, you will need to create a free Infura account using this link: [https://infura.io/register](https://infura.io/register). Once you have created your account, create a new project, and copy the first URL under "Endpoints / Mainnet" (something like https://mainnet.infura.io/v3/YOUR_KEY). Then, replace the string "YOUR_INFURA_MAINNET_ENDPOINT" in ./examples/infura-endpoint.js with full your copied Infura URL. You should be good to go! If not, refer to [this tutorial](https://coderrocketfuel.com/article/configure-infura-with-web3-js-and-node-js).
 
 ### The Transactions Tree
 
@@ -720,14 +720,14 @@ console.log('RLP encoding of 127: ', rlp.encode('127'))
 RLP encoding of 127:  <Buffer 83 31 32 37>
 ```
 
-We would therefore follow the path `8 → 3 → 3 → 1 → 3 → 2 → 3 → 7` and reach our destination.
+We would, therefore, follow the path `8 → 3 → 3 → 1 → 3 → 2 → 3 → 7` and reach our destination.
 
 So, what does our destination look like? It's a **key-value pair** (remember not to confuse this key with the path!) where:
 
-- **The key** is the hash of the value. This is the "key" that we use when uniquely referencing a node (not to be confused with the "path" that we used to nevigate to that key-value pair in the first place).
+- **The key** is the hash of the value. This is the "key" that we use when uniquely referencing a node (not to be confused with the "path" that we used to navigate to that key-value pair in the first place).
 - **The value** is the Recursive Layer Protocol encoding of the node itself (which, if the transaction exists, will most likely be a leaf node). Remember that the leaf node is a 2-item array: `[ remainingPath, leafValue ]`. In the context of a transaction, "leafValue" will contain information relevant to our transaction (like its value, and who sent it).
 
-A lot of confusion can arise from the fact that various distinct things are labeled "keys" and "values". It's important to understand how these items are nested within each other. The examples should help you understand this better.
+A lot of confusion can arise from the fact that various distinct things are labelled "keys" and "values". It's important to understand how these items are nested within each other. The examples should help you understand this better.
 
 ### 4a. Retrieving a Transaction from the Ethereum Blockchain
 
