@@ -15,7 +15,7 @@ A Merkle Patricia Tree* is the combination of a:
 
 We'll begin by exploring the "Patricia Trie" part of Merkle Patricia Trees, and then integreate their "Merkle Tree" part. 
 
-*_Note that since Merkle Patricia Trees are created from "Tries" and "Trees", they are sometimes refered to as "Trees", and sometimes as "Tries". In this tutorial, I'll try to use the word "Tree" when talking about "Merkle Patricia Trees" or "Merkle Trees", and "Trie" when talking about "Radix Tries" or "Patricia Tries". Ultimately, this doesn't really matter, so don't get too hung up ont these two terms._
+*_Note that since Merkle Patricia Trees are created from "Tries" and "Trees", they are sometimes refered to as "Merkle Patricia Trees", and sometimes as "Merkle Patricia Tries". In this tutorial, I'll try using the word "Tree" when talking about "Merkle Patricia Trees" or "Merkle Trees", and "Trie" when talking about "Radix Tries" or "Patricia Tries". Ultimately, this doesn't really matter, so don't get too hung up on these two terms._
 
 ## Setting up our environment
 
