@@ -766,7 +766,7 @@ Transaction:  {
 
 ### 4b. Generating a Transaction Hash from Transaction Data
 
-The previous transaction output contains all the information from the transaction node (plus additional information automatically provided by web3, like the blockHash and the blockNumber). As per [Ethereum's yellow paper](https://ethereum.github.io/yellowpaper/paper.pdf), we know that a standard transaction is an array containing the following items (in hex): [nonce, gasPrice, gasLimit, to, value, input, v, r, s]. We should therefore extract this data from our previous transaction output to re-create a valid Ethereum transaction:
+The previous transaction output contains all the information from the transaction node (plus additional information automatically provided by web3, like the blockHash and the blockNumber). As per [Ethereum's yellow paper](https://ethereum.github.io/yellowpaper/paper.pdf), we know that a standard transaction is an array containing the following items (in hex): `[nonce, gasPrice, gasLimit, to, value, input, v, r, s]`. We should therefore extract this data from our previous transaction output to re-create a valid Ethereum transaction:
 
 ```jsx
 async function createTransactionHash(transactionHash) {
