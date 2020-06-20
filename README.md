@@ -1,6 +1,6 @@
 # Ethereum's Merkle Patricia Trees
 
-## An Interactive Tutorial using JavaScript
+## An Interactive JavaScript Tutorial
 
 Merkle Patricia Trees are the fundamental data structure on which Ethereum is built. In this tutorial, we will explore the inner workings of Ethereum's Merkle Patricia Trees, using follow-along examples written in JavaScript. This tutorial uses the excellent [merkle-patricia-tree](https://github.com/ethereumjs/merkle-patricia-tree) library built by the ethereumjs team.
 
@@ -231,7 +231,6 @@ var node1 = await trie.findPath(Buffer.from('testKey')) // We retrieve the node 
 console.log('Node: ', node1.node) // A branch node!
 
 // RESULTS
-
 Node:  BranchNode {
   _branches: [
     <Buffer >,
