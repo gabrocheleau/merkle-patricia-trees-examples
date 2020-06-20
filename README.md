@@ -1,6 +1,6 @@
 # Ethereum's Merkle Patricia Trees
 
-** A better-looking version of the tutorial is available here: https://rockwaterweb.com/ethereum-merkle-patricia-trees-javascript-tutorial/ ** 
+*A better-looking version of the tutorial is available here: https://rockwaterweb.com/ethereum-merkle-patricia-trees-javascript-tutorial/*
 
 ## An Interactive JavaScript Tutorial
 
