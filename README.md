@@ -1,4 +1,5 @@
 # Ethereum's Merkle Patricia Trees - An Interactive JavaScript Tutorial
+----------------------------------------------------------------
 
 **A better-looking version of the tutorial is available here: https://rockwaterweb.com/ethereum-merkle-patricia-trees-javascript-tutorial/**
 
