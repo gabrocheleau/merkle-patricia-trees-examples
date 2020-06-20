@@ -29,7 +29,7 @@ cd merkle-patricia-tree-examples/
 npm install
 ```
 
-You can follow along using the numbered examples in the /examples folder.
+Installing the packages should take a few minutes. Once installed, you will be able to follow along using the corresponding numbered examples in the /examples folder.
 
 ## 1. Creating and Updating Tries
 
