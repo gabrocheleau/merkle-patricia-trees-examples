@@ -705,9 +705,9 @@ In this tutorial, we'll look at the transactions tree. We'll even interact with 
 
 ### Configuring additional tools
 
-To interact with the Ethereum blockchain, we will use a JavaScript library called "web3.js". We will also need to set up an API access to the Ethereum blockchain using a free tool called [Infura](https://infura.io/).
+To interact with the Ethereum blockchain, we will use a JavaScript library called `web3`. We will also set up an API access to the Ethereum blockchain using a free tool called [Infura](https://infura.io/).
 
-If you want to follow along with these examples, you will need to create a free Infura account using this link: [https://infura.io/register](https://infura.io/register). Once you have created your account, create a new project, and copy the first URL under "Endpoints / Mainnet" (something like https://mainnet.infura.io/v3/YOUR_KEY). Then, replace the string "YOUR_INFURA_MAINNET_ENDPOINT" in ./examples/infura-endpoint.js with full your copied Infura URL. You should be good to go! If not, refer to [this tutorial](https://coderrocketfuel.com/article/configure-infura-with-web3-js-and-node-js).
+If you want to follow along with these examples, you will need to create a free Infura account using this link: [https://infura.io/register](https://infura.io/register). Once you have created your account, create a new project in Infura, and copy the first URL under "Endpoints / Mainnet" (something like https://mainnet.infura.io/v3/YOUR_KEY). Then, replace the string `YOUR_INFURA_MAINNET_ENDPOINT` in `./examples/infura-endpoint.js` with your full copied Infura URL. You should be good to go! If not, refer to [this tutorial](https://coderrocketfuel.com/article/configure-infura-with-web3-js-and-node-js).
 
 ### The Transactions Tree
 
