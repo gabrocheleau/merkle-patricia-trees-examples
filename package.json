@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/gabrocheleau/merkle-patricia-trees-examples#readme",
   "dependencies": {
-    "web3": "^1.2.8",
-    "merkle-patricia-tree": "^4.0.0"
+    "@ethereumjs/rlp": "^4.0.0-beta.3",
+    "@ethereumjs/trie": "^5.0.0-beta.3",
+    "ethereum-cryptography": "^1.1.2",
+    "request": "^2.88.2"
   }
 }
