@@ -1,6 +1,6 @@
 # Ethereum's Merkle Patricia Trees - An Interactive JavaScript Tutorial - By [Gabriel Rocheleau](https://github.com/gabrocheleau)
 
-Merkle Patricia Trees are the fundamental data structure on which Ethereum is built. In this tutorial, we will explore the inner workings of Ethereum's Merkle Patricia Trees, using follow-along examples written in JavaScript. This tutorial uses the [trie package](../../) from the EthereumJS monorepo.
+Merkle Patricia Trees are the fundamental data structure on which Ethereum is built. In this tutorial, we will explore the inner workings of Ethereum's Merkle Patricia Trees, using follow-along examples written in JavaScript. This tutorial uses the [trie package](https://github.com/ethereumjs/ethereumjs-monorepo/tree/master/packages/trie) from the EthereumJS monorepo.
 
 ## Preliminary information
 
