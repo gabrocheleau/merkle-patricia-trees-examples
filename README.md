@@ -71,7 +71,7 @@ Quite simple. As expected, we can retrieve our value using the key. We can also 
 However, the example above does not reflect exactly how key-value pairs are stored and retrieved in Ethereum's Merkle Patricia Trees. Here are some things to keep in mind:
 
 - As mentioned, keys and values are stored and retrieved as raw bytes. We already covered that in the previous example by converting our strings to buffers using `Buffer.from()`.
-- Values undergo an additional transformation before they are stored. They are encoded using the [Recursive Length Prefix encoding function](https://github.com/ethereum/wiki/wiki/RLP). This allows the serialization of strings and arrays. The "Trie" class does that automatically.
+- Values undergo an additional transformation before they are stored. They are encoded using the [Recursive Length Prefix encoding function](https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp). This allows the serialization of strings and arrays. The "Trie" class does that automatically.
 - Last but not least: in Ethereum, the keys also undergo another transformation: they are converted using a hash function (keccak256). The Trie class **does not** do this.
 
 ### Example 1b - Manually Creating and Updating a Secure Trie
