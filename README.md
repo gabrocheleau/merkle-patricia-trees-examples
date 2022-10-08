@@ -547,7 +547,7 @@ In Ethereum's Merkle Patricia Trees, each node is referenced to by its hash. Not
 
 You can think of paths as a sequence of instructions for a given input, something like "_go down branch #3 → go down this extension → go down branch #8 → you have arrived at your destination: a leaf_". Hashes, on the other hand, act as unique identifiers for each node and are generated in a way that allows the verification of data.
 
-So, how is are hashes calculated in Ethereum?
+So, how are hashes calculated in Ethereum?
 
 1. First, all values from the node are serialized using the [Recursive Length Prefix encoding function](https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp).
 2. Then, a hash function (keccak256) is applied to the serialized data. This outputs a 32-bytes hash.
