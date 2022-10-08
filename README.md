@@ -175,7 +175,7 @@ This is all great, but we haven't yet really dived into the inner workings of Me
 As we said, in a standard "trie", the key is a path we follow step-by-step (i.e. one hexadecimal value at a time) to reach a destination: our value. Now, every time we take a step along that trie, we step on what's called a "node". In Patricia Tries, there are different kinds of nodes:
 
 1. `null` A non-existent node.
-2. `branch` A node that links ("branches out") to up to 16 distinct child notes. A branch node can also itself have a value.
+2. `branch` A node that links ("branches out") to up to 16 distinct child nodes. A branch node can also itself have a value.
 3. `leaf` An "end-node" that contains the final part of the path and a value.
 4. `extension` A "shortcut" node that provides a partial path and a destination. Extension nodes are used to "bypass" unnecessary nodes when only one valid branch exists for a sequence of nodes.
 
@@ -547,7 +547,7 @@ In Ethereum's Merkle Patricia Trees, each node is referenced to by its hash. Not
 
 You can think of paths as a sequence of instructions for a given input, something like "_go down branch #3 → go down this extension → go down branch #8 → you have arrived at your destination: a leaf_". Hashes, on the other hand, act as unique identifiers for each node and are generated in a way that allows the verification of data.
 
-So, how is are hashes calculated in Ethereum?
+So, how are hashes calculated in Ethereum?
 
 1. First, all values from the node are serialized using the [Recursive Length Prefix encoding function](https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp).
 2. Then, a hash function (keccak256) is applied to the serialized data. This outputs a 32-bytes hash.
